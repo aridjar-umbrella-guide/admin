@@ -19,6 +19,12 @@ defmodule AdminWeb.Router do
     get "/", PageController, :index
   end
 
+  scope "/admin_user/", AdminWeb do
+    pipe_through :browser
+
+    resources "/", AdminUserController
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", AdminWeb do
   #   pipe_through :api

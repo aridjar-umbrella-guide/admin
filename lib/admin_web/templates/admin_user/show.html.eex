@@ -1,0 +1,8 @@
+<h1>Show Admin user</h1>
+
+<ul>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.admin_user_path(@conn, :edit, @admin_user) %></span>
+<span><%= link "Back", to: Routes.admin_user_path(@conn, :index) %></span>
