@@ -1,16 +1,8 @@
 defmodule AdminWeb.AdminUserControllerTest do
   use AdminWeb.ConnCase
+  use Database.DataFixtures, [:admin_user]
 
-  alias Admin.AdminUsers
-
-  @create_attrs %{}
-  @update_attrs %{}
-  @invalid_attrs %{}
-
-  def fixture(:admin_user) do
-    {:ok, admin_user} = AdminUsers.create_admin_user(@create_attrs)
-    admin_user
-  end
+  alias Database.AdminUsers
 
   describe "index" do
     test "lists all admin_users", %{conn: conn} do
@@ -28,7 +20,7 @@ defmodule AdminWeb.AdminUserControllerTest do
 
   describe "create admin_user" do
     test "redirects to show when data is valid", %{conn: conn} do
-      conn = post(conn, Routes.admin_user_path(conn, :create), admin_user: @create_attrs)
+      conn = post(conn, Routes.admin_user_path(conn, :create), admin_user: @valid_attrs)
 
       assert %{id: id} = redirected_params(conn)
       assert redirected_to(conn) == Routes.admin_user_path(conn, :show, id)
@@ -82,7 +74,7 @@ defmodule AdminWeb.AdminUserControllerTest do
   end
 
   defp create_admin_user(_) do
-    admin_user = fixture(:admin_user)
+    admin_user = admin_user_fixture()
     {:ok, admin_user: admin_user}
   end
 end
