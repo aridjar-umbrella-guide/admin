@@ -48,7 +48,9 @@ defmodule AdminWeb.AdminUserControllerTest do
     setup [:create_admin_user]
 
     test "redirects when data is valid", %{conn: conn, admin_user: admin_user} do
-      conn = put(conn, Routes.admin_user_path(conn, :update, admin_user), admin_user: @update_attrs)
+      conn =
+        put(conn, Routes.admin_user_path(conn, :update, admin_user), admin_user: @update_attrs)
+
       assert redirected_to(conn) == Routes.admin_user_path(conn, :show, admin_user)
 
       conn = get(conn, Routes.admin_user_path(conn, :show, admin_user))
@@ -56,7 +58,9 @@ defmodule AdminWeb.AdminUserControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn, admin_user: admin_user} do
-      conn = put(conn, Routes.admin_user_path(conn, :update, admin_user), admin_user: @invalid_attrs)
+      conn =
+        put(conn, Routes.admin_user_path(conn, :update, admin_user), admin_user: @invalid_attrs)
+
       assert html_response(conn, 200) =~ "Edit Admin user"
     end
   end
@@ -67,6 +71,7 @@ defmodule AdminWeb.AdminUserControllerTest do
     test "deletes chosen admin_user", %{conn: conn, admin_user: admin_user} do
       conn = delete(conn, Routes.admin_user_path(conn, :delete, admin_user))
       assert redirected_to(conn) == Routes.admin_user_path(conn, :index)
+
       assert_error_sent 404, fn ->
         get(conn, Routes.admin_user_path(conn, :show, admin_user))
       end
