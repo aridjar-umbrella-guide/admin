@@ -1,0 +1,9 @@
+<%= form_for @changeset, Routes.auth_path(@conn, :login), fn f -> %>
+  <label>
+    Email: <%= email_input f, :email %>
+  </label>
+  <label>
+    Password: <%= password_input f, :password %>
+  </label>
+  <%= submit "Submit" %>
+<% end %>

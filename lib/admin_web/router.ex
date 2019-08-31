@@ -13,14 +13,30 @@ defmodule AdminWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :auth do
+    plug Database.Common.Pipelines.AdminAuth
+  end
+
+  pipeline :ensure_auth do
+    plug Guardian.Plug.EnsureAuthenticated
+  end
+
   scope "/", AdminWeb do
-    pipe_through :browser
+    pipe_through [:browser, :auth]
+
+    get "/login", AuthController, :login_page
+    post "/login", AuthController, :login
+  end
+
+  scope "/", AdminWeb do
+    pipe_through [:browser, :auth, :ensure_auth]
 
     get "/", PageController, :index
+    post "/logout", AuthController, :logout
   end
 
   scope "/admin_user/", AdminWeb do
-    pipe_through :browser
+    pipe_through [:browser, :auth, :ensure_auth]
 
     resources "/", AdminUserController
   end
