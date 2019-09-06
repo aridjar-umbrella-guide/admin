@@ -1,24 +1,37 @@
 <h1>Listing Admin users</h1>
+<span><%= link "New Admin user", to: Routes.admin_user_path(@conn, :new), class: "btn btn-primary mb-4" %></span>
 
-<table>
+<table class="table">
   <thead>
     <tr>
-
-      <th></th>
+      <th>Email</th>
+      <th>Username</th>
+      <th>Accreditation</th>
+      <th class="text-right">Actions</th>
     </tr>
   </thead>
   <tbody>
-<%= for admin_user <- @admin_users do %>
-    <tr>
-
-      <td>
-        <%= link "Show", to: Routes.admin_user_path(@conn, :show, admin_user) %>
-        <%= link "Edit", to: Routes.admin_user_path(@conn, :edit, admin_user) %>
-        <%= link "Delete", to: Routes.admin_user_path(@conn, :delete, admin_user), method: :delete, data: [confirm: "Are you sure?"] %>
-      </td>
-    </tr>
-<% end %>
+    <%= for admin_user <- @admin_users do %>
+      <tr>
+        <td><%= admin_user.email %></td>
+        <td><%= admin_user.username %></td>
+        <td><%= admin_user.accreditation %></td>
+        <td class="text-right">
+          <%= link to: Routes.admin_user_path(@conn, :show, admin_user), class: "nav-link" do %><i class="fas fa-search"></i><% end %>
+          <%= link to: Routes.admin_user_path(@conn, :edit, admin_user), class: "nav-link" do %><i class="fas fa-edit"></i><% end %>
+          <%= if admin_user.accreditation == "super_admin" do %>
+            <%= link to: Routes.admin_user_path(@conn, :delete, admin_user),method: :delete,
+              data: [confirm: "Are you sure?"], class: "nav-link disabled" do %>
+              <i class="fas fa-times"></i>
+            <% end %>
+          <%= else %>
+            <%= link to: Routes.admin_user_path(@conn, :delete, admin_user),method: :delete,
+              data: [confirm: "Are you sure?"], class: "nav-link" do %>
+              <i class="fas fa-times"></i>
+            <% end %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
   </tbody>
 </table>
-
-<span><%= link "New Admin user", to: Routes.admin_user_path(@conn, :new) %></span>

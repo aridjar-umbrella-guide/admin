@@ -1,9 +1,5 @@
 /* This file is for your main application css. */
 
 @import "variables";
-@import "bootstrap";
+@import "libs";
 @import "custom";
-
-body {
-    background-color: white;
-}

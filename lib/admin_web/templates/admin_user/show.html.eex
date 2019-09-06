@@ -1,8 +1,19 @@
 <h1>Show Admin user</h1>
 
 <ul>
-
+  <li>
+    <strong>Username:</strong>
+    <%= @admin_user.username %>
+  </li>
+  <li>
+    <strong>Email address:</strong>
+    <%= @admin_user.email %>
+  </li>
+  <li>
+    <strong>Accreditation:</strong>
+    <%= @admin_user.accreditation %>
+  </li>
 </ul>
 
-<span><%= link "Edit", to: Routes.admin_user_path(@conn, :edit, @admin_user) %></span>
-<span><%= link "Back", to: Routes.admin_user_path(@conn, :index) %></span>
+<span><%= link "Edit", to: Routes.admin_user_path(@conn, :edit, @admin_user), class: "btn btn-primary" %></span>
+<span><%= link "Back", to: Routes.admin_user_path(@conn, :index), class: "btn btn-danger" %></span>
