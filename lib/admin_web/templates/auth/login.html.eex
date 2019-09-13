@@ -1,5 +1,6 @@
 <section class="row">
   <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1 col">
+    <h1>Login page</h1>
     <%= form_for @changeset, Routes.auth_path(@conn, :login), fn f -> %>
       <div class="form-group">
         <label for="email">Email address</label>

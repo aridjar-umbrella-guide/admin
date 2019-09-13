@@ -1,18 +1,17 @@
 defmodule AdminWeb.PageControllerTest do
   use AdminWeb.ConnCase
-  alias AdminWeb.LogInCase
+  alias AdminWeb.AuthCase
 
   setup_all _context do
-    %{log_in_conn: log_in_conn, admin_user: admin_user} = build_conn()
-    |> LogInCase.setup()
+    %{auth_conn: auth_conn, admin_user: admin_user} = AuthCase.setup()
 
-    on_exit fn -> LogInCase.exit(admin_user) end
+    on_exit fn -> AuthCase.delete_user_if_found(admin_user.id) end
 
-    [log_in_conn: log_in_conn, admin_user: admin_user]
+    [auth_conn: auth_conn, admin_user: admin_user]
   end
 
-  test "GET /", %{log_in_conn: log_in_conn} do
-    conn = get(log_in_conn, "/")
+  test "GET /", %{auth_conn: auth_conn} do
+    conn = get(auth_conn, "/")
     assert html_response(conn, 200) =~ "Welcome to Phoenix!"
   end
 end
