@@ -13,7 +13,10 @@ defmodule AdminWeb.AuthController do
     if logged_user do
       redirect(conn, to: "/")
     else
-      render(conn, "login.html", changeset: changeset, action: AdminWeb.Router.Helpers.page_path(conn, :index))
+      render(conn, "login.html",
+        changeset: changeset,
+        action: AdminWeb.Router.Helpers.page_path(conn, :index)
+      )
     end
   end
 
@@ -28,6 +31,7 @@ defmodule AdminWeb.AuthController do
 
   defp login_reply({:ok, user}, conn),
     do: redirect(AdminGuardian.Plug.sign_in(conn, user), to: "/")
+
   defp login_reply({:error, reason}, conn),
     do: put_flash(conn, :info, "Error: #{reason}")
 

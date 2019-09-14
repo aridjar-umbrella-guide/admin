@@ -9,6 +9,7 @@ defmodule AdminWeb.AuthCase do
       :ok = Ecto.Adapters.SQL.Sandbox.checkout(Repo)
       Ecto.Adapters.SQL.Sandbox.mode(Repo, :auto)
     end
+
     conn = ConnTest.build_conn()
 
     admin_user = admin_user_fixture(@super_admin_attrs)

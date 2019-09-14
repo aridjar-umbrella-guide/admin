@@ -5,7 +5,7 @@ defmodule AdminWeb.PageControllerTest do
   setup_all _context do
     %{auth_conn: auth_conn, admin_user: admin_user} = AuthCase.setup()
 
-    on_exit fn -> AuthCase.delete_user_if_found(admin_user.id) end
+    on_exit(fn -> AuthCase.delete_user_if_found(admin_user.id) end)
 
     [auth_conn: auth_conn, admin_user: admin_user]
   end
