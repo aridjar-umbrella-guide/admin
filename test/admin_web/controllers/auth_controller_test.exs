@@ -24,7 +24,6 @@ defmodule AdminWeb.AuthControllerTest do
       conn = post(conn, Routes.auth_path(conn, :login), admin_user: @valid_attrs)
 
       Repo.all(Database.AdminUsers.AdminUser)
-      |> IO.inspect()
 
       assert redirected_to(conn) == Routes.page_path(conn, :index)
     end
