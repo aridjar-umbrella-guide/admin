@@ -2,7 +2,6 @@ defmodule AdminWeb.AuthControllerTest do
   use AdminWeb.ConnCase
   use Database.DataFixtures, [:admin_user]
   alias AdminWeb.AuthCase
-  alias Database.Repo
 
   setup_all _context do
     %{auth_conn: auth_conn, admin_user: admin_user} = AuthCase.setup()
@@ -21,10 +20,7 @@ defmodule AdminWeb.AuthControllerTest do
     end
 
     test "post login with valid data", %{conn: conn} do
-      conn = post(conn, Routes.auth_path(conn, :login), admin_user: @valid_attrs)
-
-      Repo.all(Database.AdminUsers.AdminUser)
-
+      conn = post(conn, Routes.auth_path(conn, :login), admin_user: @valid_attrs
       assert redirected_to(conn) == Routes.page_path(conn, :index)
     end
 
