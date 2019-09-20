@@ -1,16 +1,5 @@
 defmodule AdminWeb.AuthControllerTest do
-  use AdminWeb.ConnCase
-  use Database.DataFixtures, [:admin_user]
-  alias AdminWeb.AuthCase
-  alias Database.Repo
-
-  setup_all _context do
-    %{auth_conn: auth_conn, admin_user: admin_user} = AuthCase.setup()
-
-    on_exit(fn -> AuthCase.delete_user_if_found(admin_user.id) end)
-
-    [auth_conn: auth_conn, admin_user: admin_user]
-  end
+  use AdminWeb.AuthCase
 
   describe "login" do
     setup [:create_admin_user]
@@ -22,9 +11,6 @@ defmodule AdminWeb.AuthControllerTest do
 
     test "post login with valid data", %{conn: conn} do
       conn = post(conn, Routes.auth_path(conn, :login), admin_user: @valid_attrs)
-
-      Repo.all(Database.AdminUsers.AdminUser)
-
       assert redirected_to(conn) == Routes.page_path(conn, :index)
     end
 
@@ -40,8 +26,6 @@ defmodule AdminWeb.AuthControllerTest do
   end
 
   describe "logout" do
-    setup [:create_admin_user]
-
     test "try to logout when not connected", %{conn: conn} do
       conn = post(conn, Routes.auth_path(conn, :logout))
       assert text_response(conn, 401) =~ "unauthenticated"
@@ -51,13 +35,5 @@ defmodule AdminWeb.AuthControllerTest do
       conn = post(conn, Routes.auth_path(conn, :logout))
       assert redirected_to(conn) == Routes.auth_path(conn, :login_page)
     end
-  end
-
-  defp create_admin_user(_) do
-    admin_user = admin_user_fixture()
-
-    on_exit(fn -> AuthCase.delete_user_if_found(admin_user.id) end)
-
-    :ok
   end
 end

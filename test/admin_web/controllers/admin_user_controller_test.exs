@@ -1,15 +1,5 @@
 defmodule AdminWeb.AdminUserControllerTest do
-  use AdminWeb.ConnCase
-  use Database.DataFixtures, [:admin_user]
-  alias AdminWeb.AuthCase
-
-  setup_all do
-    %{auth_conn: auth_conn, admin_user: admin_user} = AuthCase.setup()
-
-    on_exit(fn -> AuthCase.delete_user_if_found(admin_user.id) end)
-
-    [auth_conn: auth_conn, admin_user: admin_user]
-  end
+  use AdminWeb.AuthCase
 
   describe "index" do
     test "lists all admin_users", %{auth_conn: auth_conn} do
@@ -34,7 +24,7 @@ defmodule AdminWeb.AdminUserControllerTest do
 
       conn = get(auth_conn, Routes.admin_user_path(auth_conn, :show, id))
       assert html_response(conn, 200) =~ "Show Admin user"
-      AuthCase.delete_user_if_found(id)
+      AdminWeb.AuthCase.delete_user_if_found(id)
     end
 
     test "renders errors when data is invalid", %{auth_conn: auth_conn} do
@@ -93,13 +83,5 @@ defmodule AdminWeb.AdminUserControllerTest do
         get(auth_conn, Routes.admin_user_path(auth_conn, :show, admin_user))
       end
     end
-  end
-
-  defp create_admin_user(_) do
-    admin_user = admin_user_fixture()
-
-    on_exit(fn -> AuthCase.delete_user_if_found(admin_user.id) end)
-
-    {:ok, admin_user: admin_user}
   end
 end
